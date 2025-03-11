@@ -1,5 +1,5 @@
 <?php  
-	
+
 	include("connection.php");
 	session_start();
 
@@ -8,13 +8,23 @@
 		$username = $_POST['username'];
 		$_SESSION['temp_user'] = $username;
 
-		$query = mysqli_query($con,"select reg_email from reg_details where reg_email='$username'");
+		$captcha = $_SESSION['captcha'];
+		$otp_entered = $_POST['otp'];
+
+		$query = mysqli_query($con,"select * from admin_detail where a_uname='$username'");
 		
 		$count=mysqli_num_rows($query);
 		if($count>0)
 		{
-			
-			header("location:captcha_verification.php");
+			if ($otp_entered!=$captcha)
+			{
+				$_SESSION['err_otp'] = "Please provide valid captcha code to process further";
+				header("location:forgotpasswd.php");
+			}
+			else
+			{
+				header("location:changepasswd.php");
+			}
 		}
 		else
 		{

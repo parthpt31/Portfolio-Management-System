@@ -1,141 +1,251 @@
-<?php 
-	include("connection.php");
-	session_start();
+<?php  
+    include ("connection.php");
+    include("security.php");
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  
 <head>
-	<title>PortFolioBox - Welcome to the site</title>
-	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="img/logo.jpg" type="image/icon type">
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keyword" content="">
+    <link rel="icon" href="img/logo.png" type="image/icon type">
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+    <title>PortfolioBox - Admin Dashboard</title>
 
-</head>
-<body style="background-color: #343a40;color: white">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
 
-<section class="testimonial py-5" id="testimonial">
-    <div class="container">
-    	<form method="post" action="add_personal_details.php" enctype="multipart/form-data">
-	        <div class="row ">
-		            <div class="col-md-4 py-5 bg-primary text-white text-center ">
-		                <div class=" ">
-		                    <div class="card-body">
-		                        <img src="img/logo.jpg" style="width:30%" title="PortFolioBox">
-		                        <h2 class="py-3 text-warning">Personal Details</h2>
-		                        <p class="text-white">Welcome to the PortFolioBox. This is the registration page for creating your own portfolio for the better experiance.</p>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="col-md-8 py-5 border">
-		          		<?php  
-		            		if (isset($_SESSION['pd_fail']))
-		            		{
-		            			
-		            	?>
-		            	<div class="alert alert-danger" role="alert">
-  							<?php echo $_SESSION['pd_fail']; ?>
-						</div>
-						<?php 
-							unset($_SESSION['pd_fail']);
-						}
-						?>
-		                <h1 class="pb-4 text-warning">Personal Details</h1>
-		
-		                    <div class="form-row">
-		                        <div class="form-group col-md-6">
-		                        <?php 
-		                        	if (isset($_SESSION['temp_user'])) {
-		                        	
-		                        		$uname = $_SESSION['temp_user'];
-		                        		$query=mysqli_query($con,"select * from reg_details where reg_email='$uname'");
-		                        		if(mysqli_num_rows($query)>0)
-		                        		{
-		                        			while ($row=mysqli_fetch_array($query)) {
-		                        ?>
-		                        <div class="form-row">
-			                        <div class="form-group col-md-10">
-			                        
-			                          <input id="Full Name" name="name" placeholder="Full Name" class="form-control" type="text" required="" value="<?php echo $row['reg_name']; ?>" disabled>
-			                        </div>
-			                        <div class="form-group col-md-10">
-			                          <input type="email" class="form-control email" id="email" placeholder="Email" name="email" required="" value="<?php echo $row['reg_email'] ?>" disabled>
-			                        </div>
-		                    	</div>
-		                        <?php }}} ?>	
-		                        </div>
-		                    </div>
-		                    
-		                    <div class="form-row">
-		                       <input type="text" class="form-control" id="" placeholder="Hobbies (ex: a,b,c)" name="hobbies" required="">
-		                    </div> <br>
-		                    
-		                    <div class="form-row">
-			                        <div class="form-group col-md-6">
-			                        	<select class="form-select" aria-label="Gender" name="gender">
-										  <option selected>Select your Gender</option>
-										  <option value="Male">Male</option>
-										  <option value="Female">Female</option>
-										  <option value="Other">Other</option>
-										</select>
-			                        </div>
-			                        <div class="col-md-6 form-group">
-			                        	<input type="text" name="mobile" placeholder="Mobile Number" class="form-control" required="" maxlength="10">
-									</div>
-		                    </div>
+      <!--right slidebar-->
+      <link href="css/slidebars.css" rel="stylesheet">
 
-		                    <div class="form-row">
-			                        <div class="form-group col-md-6">
-			                        	<input type="text" name="dob" placeholder="Birthdate (DD/MM/YYYY)" class="form-control" required="">
-			                        </div>
-			                        <div class="col-md-6 form-group">
-			                        	<input type="text" name="skills" placeholder="Skills (eg. a,b,c)" class="form-control" required="">
-									</div>
-		                    </div>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
 
-		                     <div class="form-row">
-			                	<textarea class="form-control" id="add" rows="3" placeholder="Recidental Address" name="add"></textarea> 
-		                    </div>
-		                    <br>
-		                    
-		                    <div class="form-row">
-			                        <div class="form-group col-md-6">
-			                        	<label for="profile">Profile Photo</label>
-			                        	<input type="file" class="form-control--file" id="profile" name="profile">
-			                        </div>
-			                        <div class="col-md-6 form-group">
-			                        	<input type="text" name="nationality" placeholder="Nationality" class="form-control" required="">
-									</div>
-		                    </div>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.3.5/css/autoFill.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/colreorder/1.5.3/css/colReorder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.8/css/fixedHeader.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/keytable/2.6.1/css/keyTable.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/scroller/2.0.3/css/scroller.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/1.2.1/css/searchPanes.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
 
-		                    <div class="form-row">
-			                        <div class="form-group col-md-6">
-			                        	<input type="text" name="status" placeholder="Married status" class="form-control md-col-6">
-			                        </div>
-			                        <div class="col-md-6 form-group">
-			                        	<input type="text" name="lang" placeholder="Languages known (eg. a,b,c)" class="form-control" required="">
-									</div>
-		                    </div>
-		                    <div class="form-row">
-			                	<textarea class="form-control" id="add" rows="3" placeholder="Add some intro for yourself" name="pitch"></textarea> 
-		                    </div>
+  </head>
 
-		                     <p class="text-info">Please provide some accurate details with us so we can make your portfolio more attractive and reliable with the provided details.</p>
-		                    <div class="form-row">
-		                        <input type="submit" class="btn btn-danger" name="submit" value="Next ->">
-		                    </div>
-		            </div>
-	        </div>
-   		</form>
-    </div>
-</section>
+  <body>
+
+  <section id="container" >
+      <!--header start-->
+      <header class="header white-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="register_user.php" class="logo">Admin<span> Dashboard</span></a>
+            <!--logo end-->
+        </header>
+      <!--header end-->
+
+
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+                  
+
+                  <li class="sub-menu">
+                      <a href="register_user.php">
+                          <span>Registered User</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="personal_details.php" class="active">
+                          <span>Personal Details</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="educational_details.php">
+                          <span>Educational Details</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="project_details.php">
+                          <span>Project Details</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="experiance_details.php" >
+                          <span>Experiance details</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="achievement_details.php" >
+                          <span>Achievement Details</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="block_users.php" >
+                          <span>Block Users</span>
+                      </a>
+                  </li>
+                  <li class="sub-menu">
+                      <a href="logout.php" >
+                          <span>Logout</span>
+                      </a>
+                  </li>
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+            <section class="panel">
+                <header class="panel-heading text-danger"><b>Personal Details of user</b></header>
+                <div class="panel-body">
+                    <table class="table table-bordered" id="pdDT">
+                        <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Profile</th>
+                              <th>Name</th>
+                              <th>Gender</th>
+                              <th>Hobby</th>
+                              <th>Contact Number</th>
+                              <th>Birthdate</th>
+                              <th>Skills</th>
+                              <th>Nationality</th>
+                              <th>Languages known</th>
+                              <th>About</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php  
+                              $q1 = "select * from personal_detail pd,reg_details rd where pd.reg_id=rd.reg_id";
+                              $result = $con->query($q1);
+                              $count=1;
+                              if ($result->num_rows > 0) {
+
+                                while($row = $result->fetch_assoc()) {
+                            ?>
+                              <?php  
+                                if($row['block_status']==0){
+                              ?>
+                            <tr>
+                              <td><?php echo $count; ?></td>
+                              <td><img style="width: 100px;height: 10%;" src="../profile/<?php echo $row['pd_profile']; ?>"></td>
+                              <td><?php echo strtoupper($row['reg_name']); ?></td>
+                              <td><?php echo $row['pd_gender']; ?></td>
+                              <td><?php echo $row['pd_hobby']; ?></td>
+                              <td><?php echo $row['pd_contact']; ?></td>
+                              <td><?php echo $row['pd_dob']; ?></td>
+                              <td><?php echo $row['pd_skill']; ?></td>
+                              <td><?php echo $row['pd_nation']; ?></td>
+                              <td><?php echo $row['pd_lang']; ?></td>
+                              <td><?php echo $row['pd_pitch']; ?></td>
+
+                            </tr>
+                            
+                          <?php } ?>
+                          <?php $count++; }} ?>
+                        </tbody>
+                      
+                        <tfoot>
+                            <tr>
+                              <th>No</th>
+                              <th>Profile</th>
+                              <th>Name</th>
+                              <th>Gender</th>
+                              <th>Hobby</th>
+                              <th>Contact Number</th>
+                              <th>Birthdate</th>
+                              <th>Skills</th>
+                              <th>Nationality</th>
+                              <th>Languages known</th>
+                              <th>About</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+          </section>
+      </section><!--main content end-->
+
+
+  </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="js/jquery.scrollTo.min.js"></script>
+    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="js/jquery.sparkline.js" type="text/javascript"></script>
+    <script src="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="js/owl.carousel.js" ></script>
+    <script src="js/jquery.customSelect.min.js" ></script>
+    <script src="js/respond.min.js" ></script>
+
+    <!--right slidebar-->
+    <script src="js/slidebars.min.js"></script>
+
+    <!--common script for all pages-->
+    <script src="js/common-scripts.js"></script>
+
+    <!--script for this page-->
+    <script src="js/sparkline-chart.js"></script>
+    <script src="js/easy-pie-chart.js"></script>
+    <script src="js/count.js"></script>
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.3.5/js/dataTables.autoFill.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.colVis.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.flash.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.3/js/dataTables.colReorder.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.8/js/dataTables.fixedHeader.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.6.1/js/dataTables.keyTable.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/scroller/2.0.3/js/dataTables.scroller.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.0.1/js/dataTables.searchBuilder.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/1.2.1/js/dataTables.searchPanes.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+          $('#pdDT').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+              'csv', 'pdf', 'print'
+            ]
+          });
+      });
+  </script>
 
 </body>
 </html>

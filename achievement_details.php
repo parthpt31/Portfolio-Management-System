@@ -65,7 +65,7 @@
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
-
+              
 
                   <li class="sub-menu">
                       <a href="register_user.php">
@@ -80,7 +80,7 @@
                   </li>
 
                   <li class="sub-menu">
-                      <a href="educational_details.php" class="active">
+                      <a href="educational_details.php">
                           <span>Educational Details</span>
                       </a>
                   </li>
@@ -98,7 +98,7 @@
                   </li>
 
                   <li class="sub-menu">
-                      <a href="achievement_details.php" >
+                      <a href="achievement_details.php" class="active">
                           <span>Achievement Details</span>
                       </a>
                   </li>
@@ -121,22 +121,22 @@
       <section id="main-content">
           <section class="wrapper">
             <section class="panel">
-                <header class="panel-heading text-danger"><b>Educational Details of user</b></header>
+                <header class="panel-heading text-danger"><b>Achievements of user</b></header>
                 <div class="panel-body">
-                  <table class="table table-bordered" id="pdDT">
+                       <table class="table table-bordered" id="pdDT">
                         <thead>
                             <tr>
                               <th>No</th>
+                              <th>Certificate</th>
                               <th>Name</th>
-                              <th>Qualification of User</th>
-                              <th>Passing Year</th>
-                              <th>Board/University</th>
-                              <th>Marks/Grade</th>
+                              <th>Achievement Name</th>
+                              <th>Rank</th>
+                              <th>Year</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php  
-                              $q1 = "select * from education_detail ed,reg_details rd where ed.reg_id=rd.reg_id order by reg_name asc";
+                              $q1 = "select * from achievement_details ad,reg_details rd where ad.reg_id=rd.reg_id order by reg_name asc";
                               $result = $con->query($q1);
                               $count=1;
                               if ($result->num_rows > 0) {
@@ -148,24 +148,24 @@
                             ?>
                             <tr>
                                 <td><?php echo $count; ?></td>
+                                <td><img style="width: 100px;height: 10%;" src="../certificates/<?php echo $row['ach_certy']; ?>"></td>
                                 <td><?php echo strtoupper($row['reg_name']); ?></td>
-                                <td><?php echo $row['edu_qua']; ?></td>
-                                <td><?php echo $row['edu_year']; ?></td>
-                                <td><?php echo $row['edu_uni']; ?></td>
-                                <td><?php echo $row['edu_grade'] ?></td>
+                                <td><?php echo $row['ach_name']; ?></td>
+                                <td><?php echo $row['ach_rank']; ?></td>
+                                <td><?php echo $row['ach_year']; ?></td>
                             </tr>
                             <?php } ?>
                           <?php $count++; }} ?>
                         </tbody>
                       
                         <tfoot>
-                             <tr>
+                            <tr>
                               <th>No</th>
+                              <th>Certificate</th>
                               <th>Name</th>
-                              <th>Qualification of User</th>
-                              <th>Passing Year</th>
-                              <th>Board/University</th>
-                              <th>Marks/Grade</th>
+                              <th>Achievement Name</th>
+                              <th>Rank</th>
+                              <th>Year</th>
                             </tr>
                         </tfoot>
                   </table>
@@ -230,5 +230,5 @@
       });
   </script>
 
-  </body>
+</body>
 </html>
